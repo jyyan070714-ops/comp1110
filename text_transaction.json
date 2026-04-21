@@ -4,5 +4,26 @@
         "amount": 30.0,
         "category": "Food",
         "description": "Ate a burger."
+    },
+    {
+        "date": "2026-4-21",
+        "amount": 30.0,
+        "category": "Food",
+        "description": "No",
+        "optional notes": ""
+    },
+    {
+        "date": "2026-2-11",
+        "amount": 80.0,
+        "category": "Shopping",
+        "description": "Bike",
+        "optional notes": ""
+    },
+    {
+        "date": "2023-03-11",
+        "amount": 20.0,
+        "category": "Education",
+        "description": "No",
+        "optional notes": ""
     }
 ]
