@@ -1,0 +1,8 @@
+[
+    {"date": "2026-04-01", "amount": 78.0, "category": "Subscriptions", "description": "Netflix"},
+    {"date": "2026-04-02", "amount": 58.0, "category": "Subscriptions", "description": "Spotify"},
+    {"date": "2026-04-05", "amount": 15.0, "category": "Subscriptions", "description": "iCloud"},
+    {"date": "2026-04-10", "amount": 98.0, "category": "Subscriptions", "description": "ChatGPT Plus"},
+    {"date": "2026-04-15", "amount": 110.0, "category": "Subscriptions", "description": "Adobe Creative Cloud"},
+    {"date": "2026-04-20", "amount": 38.0, "category": "Subscriptions", "description": "YouTube Premium"}
+]

@@ -1,0 +1,32 @@
+[
+    {
+        "date": "2026-04-01",
+        "amount": 12.5,
+        "category": "Transport",
+        "description": "MTR from HKU to Central"
+    },
+    {
+        "date": "2026-04-02",
+        "amount": 4.5,
+        "category": "Transport",
+        "description": "Bus to supermarket"
+    },
+    {
+        "date": "2026-04-05",
+        "amount": 280.0,
+        "category": "Transport",
+        "description": "Taxi to airport for holiday"
+    },
+    {
+        "date": "2026-04-06",
+        "amount": 150.0,
+        "category": "Shopping",
+        "description": "Duty free snacks"
+    },
+    {
+        "date": "2026-04-10",
+        "amount": 15.0,
+        "category": "Transport",
+        "description": "MTR return from airport"
+    }
+]
