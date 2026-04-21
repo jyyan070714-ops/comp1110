@@ -18,7 +18,7 @@ def get_verified_input():
         try:
             amount = float(input('Please enter the amount: '))
             if amount <= 0:
-                print('The amount must be greater than 0, please try again.')
+                print('Please enter an amount greater than 0.')
                 continue
             return amount
         except ValueError:

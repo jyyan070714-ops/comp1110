@@ -6,6 +6,7 @@ import test_data
 
 TRANSACTIONS_FILE = 'text_transaction.json'
 RULES_FILE = 'budget_rules.json'
+DEFAULT_TEST_TRANSACTIONS = 20
 
 
 def _view_transactions(database):
@@ -102,11 +103,11 @@ def _generate_test_data_menu(database):
 
     if choice == '1':
         try:
-            n = int(input("How many? (default 20): ").strip() or "20")
+            n = int(input(f"How many? (default {DEFAULT_TEST_TRANSACTIONS}): ").strip() or str(DEFAULT_TEST_TRANSACTIONS))
             if n <= 0:
                 raise ValueError("Number of transactions must be positive")
         except ValueError:
-            n = 20
+            n = DEFAULT_TEST_TRANSACTIONS
         new_data = test_data.generate_test_transactions(n)
         database.extend(new_data)
         print(f"Generated {len(new_data)} test transactions.")
