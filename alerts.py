@@ -33,7 +33,7 @@ def _check_spending_cap(transactions, category, time_period, threshold):
         elif time_period == 'weekly':
             key = f"{d.year}-W{d.strftime('%W')}"
         elif time_period == 'monthly':
-            key = t['date'][:7]
+            key = d.strftime('%Y-%m')
         else:
             continue
         period_totals[key] += t['amount']
@@ -73,11 +73,14 @@ def _check_consecutive_overspend(transactions, rules):
                 daily_totals[t['date']] += t['amount']
         streak = 0
         prev_date = None
-        for date_str in sorted(daily_totals):
+        sortable_dates = []
+        for date_str in daily_totals:
             try:
                 d = datetime.strptime(date_str, '%Y-%m-%d')
+                sortable_dates.append((d, date_str))
             except ValueError:
                 continue
+        for d, date_str in sorted(sortable_dates):
             if daily_totals[date_str] > cap:
                 if prev_date and (d - prev_date).days == 1:
                     streak += 1

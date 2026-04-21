@@ -3,6 +3,13 @@ from datetime import datetime
 from models import valid_categories
 
 
+def _parse_date(date_str):
+    try:
+        return datetime.strptime(date_str, '%Y-%m-%d')
+    except ValueError:
+        return None
+
+
 def get_verified_date(prompt='Please enter date (YYYY-MM-DD): '):
     while True:
         date_str = input(prompt).strip()
@@ -39,7 +46,18 @@ def filter_by_category(database, category):
 
 
 def filter_by_date_range(database, start_date, end_date):
-    return [t for t in database if start_date <= t['date'] <= end_date]
+    start_dt = _parse_date(start_date)
+    end_dt = _parse_date(end_date)
+    if start_dt is None or end_dt is None:
+        return []
+    if start_dt > end_dt:
+        start_dt, end_dt = end_dt, start_dt
+    results = []
+    for transaction in database:
+        record_date = _parse_date(transaction['date'])
+        if record_date is not None and start_dt <= record_date <= end_dt:
+            results.append(transaction)
+    return results
 
 
 def generate_summary_statistics(database):
@@ -56,7 +74,9 @@ def generate_summary_statistics(database):
         cat = record['category']
         total_spending += amt
         category_totals[cat] += amt
-        monthly_totals[record['date'][:7]] += amt
+        parsed_date = _parse_date(record['date'])
+        if parsed_date is not None:
+            monthly_totals[parsed_date.strftime('%Y-%m')] += amt
 
     print("\n" + "=" * 40)
     print("      FINANCIAL SUMMARY REPORT      ")
@@ -79,7 +99,8 @@ def generate_summary_statistics(database):
         print(f"  {month}: HK${monthly_totals[month]:.2f}")
 
     try:
-        parsed_transactions = [(datetime.strptime(t['date'], '%Y-%m-%d'), t) for t in database]
+        parsed_transactions = [(_parse_date(t['date']), t) for t in database]
+        parsed_transactions = [(d, t) for d, t in parsed_transactions if d is not None]
         latest = max(d for d, _ in parsed_transactions)
         last7 = sum(t['amount'] for d, t in parsed_transactions if (latest - d).days < 7)
         last30 = sum(t['amount'] for d, t in parsed_transactions if (latest - d).days < 30)
