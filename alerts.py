@@ -86,7 +86,7 @@ def _check_consecutive_overspend(transactions, rules):
                     streak += 1
                 else:
                     streak = 1
-                if streak >= 3:
+                if streak == 3:
                     alerts.append(f"[STREAK] {category} exceeded daily cap HK${cap:.2f} for {streak} consecutive days (latest: {date_str})")
             else:
                 streak = 0
