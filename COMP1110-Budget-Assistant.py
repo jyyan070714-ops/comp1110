@@ -46,7 +46,7 @@ def _get_percentage_threshold():
                 return pct
             print("Must be between 0 and 100.")
         except ValueError:
-            print("Invalid input.")
+            print("Invalid input. Please enter a number between 0 and 100.")
 
 
 def _configure_budgets(rules):
@@ -104,7 +104,7 @@ def _generate_test_data_menu(database):
         try:
             n = int(input("How many? (default 20): ").strip() or "20")
             if n <= 0:
-                raise ValueError
+                raise ValueError("Number of transactions must be positive")
         except ValueError:
             n = 20
         new_data = test_data.generate_test_transactions(n)

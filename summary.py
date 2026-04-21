@@ -79,10 +79,10 @@ def generate_summary_statistics(database):
         print(f"  {month}: HK${monthly_totals[month]:.2f}")
 
     try:
-        parsed_dates = [datetime.strptime(t['date'], '%Y-%m-%d') for t in database]
-        latest = max(parsed_dates)
-        last7 = sum(t['amount'] for t in database if (latest - datetime.strptime(t['date'], '%Y-%m-%d')).days < 7)
-        last30 = sum(t['amount'] for t in database if (latest - datetime.strptime(t['date'], '%Y-%m-%d')).days < 30)
+        parsed_transactions = [(datetime.strptime(t['date'], '%Y-%m-%d'), t) for t in database]
+        latest = max(d for d, _ in parsed_transactions)
+        last7 = sum(t['amount'] for d, t in parsed_transactions if (latest - d).days < 7)
+        last30 = sum(t['amount'] for d, t in parsed_transactions if (latest - d).days < 30)
         print("\n[ Recent Spending (relative to latest transaction) ]")
         print(f"  Last  7 days: HK${last7:.2f}")
         print(f"  Last 30 days: HK${last30:.2f}")
