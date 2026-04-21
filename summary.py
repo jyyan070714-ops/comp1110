@@ -94,6 +94,17 @@ def generate_summary_statistics(database):
     for i, (cat, amt) in enumerate(sorted_cats[:3], 1):
         print(f"  {i}. {cat} — HK${amt:.2f}")
 
+    weekly_totals = defaultdict(float)
+    for record in database:
+        parsed_date = _parse_date(record['date'])
+        if parsed_date is not None:
+            week_key = f"{parsed_date.year}-W{parsed_date.strftime('%W')}"
+            weekly_totals[week_key] += record['amount']
+
+    print("\n[ Weekly Spending Trends ]")
+    for week in sorted(weekly_totals):
+        print(f"  {week}: HK${weekly_totals[week]:.2f}")
+
     print("\n[ Monthly Spending Trends ]")
     for month in sorted(monthly_totals):
         print(f"  {month}: HK${monthly_totals[month]:.2f}")
