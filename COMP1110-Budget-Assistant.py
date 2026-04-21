@@ -99,7 +99,8 @@ def _configure_budgets(rules):
 def _generate_test_data_menu(database):
     print("\n1. Random transactions (last 30 days)")
     print("2. Edge case transactions")
-    choice = input("Select (1-2): ").strip()
+    print("3. All-uncategorized transactions")
+    choice = input("Select (1-3): ").strip()
 
     if choice == '1':
         try:
@@ -115,6 +116,10 @@ def _generate_test_data_menu(database):
         edge = test_data.generate_edge_cases()
         database.extend(edge)
         print(f"Generated {len(edge)} edge case transactions.")
+    elif choice == '3':
+        uncategorized = test_data.generate_all_uncategorized()
+        database.extend(uncategorized)
+        print(f"Generated {len(uncategorized)} all-uncategorized transactions.")
     else:
         print("Invalid choice.")
 
@@ -133,8 +138,9 @@ def main():
         print("4. Check alerts")
         print("5. Configure budget rules")
         print("6. Generate test data")
-        print("7. Exit")
-        choice = input("Select an option (1-7): ").strip()
+        print("7. Load case study")
+        print("8. Exit")
+        choice = input("Select an option (1-8): ").strip()
 
         if choice == '1':
             date = summary.get_verified_date()
@@ -164,11 +170,28 @@ def main():
             database = _generate_test_data_menu(database)
             file_IO.save_data(database, TRANSACTIONS_FILE)
         elif choice == '7':
+            cases = {
+                '1': ('case_food_limit.json', 'case_food_limit_rules.json', 'Food daily limit'),
+                '2': ('case_subscriptions.json', 'case_subscriptions_rules.json', 'Subscription creep'),
+                '3': ('case_transport.json', 'case_transport_rules.json', 'Transport tracking'),
+            }
+            print("\nSelect case study:")
+            for k, (_, _, label) in cases.items():
+                print(f"  {k}. {label}")
+            cs = input("Select (1-3): ").strip()
+            if cs in cases:
+                data_file, rules_file, label = cases[cs]
+                database = file_IO.load_data(data_file)
+                rules = file_IO.load_rules(rules_file)
+                print(f"Loaded case study: {label} ({len(database)} transactions, {len(rules)} rules)")
+            else:
+                print("Invalid choice.")
+        elif choice == '8':
             file_IO.save_data(database, TRANSACTIONS_FILE)
             print("Exiting system!")
             break
         else:
-            print("Invalid choice. Please enter 1-7.")
+            print("Invalid choice. Please enter 1-8.")
 
 
 if __name__ == "__main__":

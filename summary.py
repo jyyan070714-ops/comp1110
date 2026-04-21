@@ -67,6 +67,7 @@ def generate_summary_statistics(database):
 
     total_spending = 0
     category_totals = defaultdict(float)
+    daily_totals = defaultdict(float)
     monthly_totals = defaultdict(float)
 
     for record in database:
@@ -76,6 +77,7 @@ def generate_summary_statistics(database):
         category_totals[cat] += amt
         parsed_date = _parse_date(record['date'])
         if parsed_date is not None:
+            daily_totals[record['date']] += amt
             monthly_totals[parsed_date.strftime('%Y-%m')] += amt
 
     print("\n" + "=" * 40)
@@ -93,6 +95,10 @@ def generate_summary_statistics(database):
     sorted_cats = sorted(category_totals.items(), key=lambda x: x[1], reverse=True)
     for i, (cat, amt) in enumerate(sorted_cats[:3], 1):
         print(f"  {i}. {cat} — HK${amt:.2f}")
+
+    print("\n[ Daily Spending Trends ]")
+    for day in sorted(daily_totals):
+        print(f"  {day}: HK${daily_totals[day]:.2f}")
 
     weekly_totals = defaultdict(float)
     for record in database:

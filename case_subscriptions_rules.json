@@ -1,0 +1,4 @@
+[
+    {"category": "Entertainment", "time period": "monthly", "threshold": 200, "alert type": "cap"},
+    {"category": "Entertainment", "time period": "monthly", "threshold": 30, "alert type": "percentage"}
+]

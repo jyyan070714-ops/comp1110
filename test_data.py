@@ -38,3 +38,13 @@ def generate_edge_cases():
         create_transaction(old_date, 50.0, 'Transport', 'Old transaction from 1 year ago'),
         create_transaction(today, 100.0, 'Others', 'Second uncategorized expense'),
     ]
+
+
+def generate_all_uncategorized(n=10):
+    today = datetime.today()
+    transactions = []
+    for i in range(n):
+        date = (today - timedelta(days=i)).strftime('%Y-%m-%d')
+        amount = round(random.uniform(10.0, 200.0), 1)
+        transactions.append(create_transaction(date, amount, 'Others', 'Uncategorized expense'))
+    return sorted(transactions, key=lambda t: t['date'])

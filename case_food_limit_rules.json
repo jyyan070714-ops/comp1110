@@ -1,0 +1,4 @@
+[
+    {"category": "Food", "time period": "daily", "threshold": 50, "alert type": "cap"},
+    {"category": "Food", "time period": "monthly", "threshold": 1000, "alert type": "cap"}
+]
