@@ -72,6 +72,7 @@ def _check_consecutive_overspend(transactions, rules):
             if t['category'] == category:
                 daily_totals[t['date']] += t['amount']
         streak = 0
+        streak_alerted = False
         prev_date = None
         sortable_dates = []
         for date_str in daily_totals:
@@ -86,9 +87,12 @@ def _check_consecutive_overspend(transactions, rules):
                     streak += 1
                 else:
                     streak = 1
-                if streak == 3:
+                    streak_alerted = False
+                if streak >= 3 and not streak_alerted:
                     alerts.append(f"[STREAK] {category} exceeded daily cap HK${cap:.2f} for {streak} consecutive days (latest: {date_str})")
+                    streak_alerted = True
             else:
                 streak = 0
+                streak_alerted = False
             prev_date = d
     return alerts
