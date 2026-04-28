@@ -96,6 +96,28 @@ def _configure_budgets(rules):
     return rules
 
 
+CASE_STUDIES = {
+    '1': ('Food Limit', 'case_food_limit.json'),
+    '2': ('Subscriptions', 'case_subscriptions.json'),
+    '3': ('Transport', 'case_transport.json'),
+}
+
+
+def _load_case_study():
+    print("\n--- Load Case Study ---")
+    for key, (name, _) in CASE_STUDIES.items():
+        print(f"{key}. {name}")
+    choice = input("Select (1-3): ").strip()
+    if choice not in CASE_STUDIES:
+        print("Invalid choice.")
+        return None
+    name, filepath = CASE_STUDIES[choice]
+    data = file_IO.load_data(filepath)
+    if data:
+        print(f"Loaded {len(data)} transaction(s) from '{name}' case study.")
+    return data
+
+
 def _generate_test_data_menu(database):
     print("\n1. Random transactions (last 30 days)")
     print("2. Edge case transactions")
@@ -170,22 +192,10 @@ def main():
             database = _generate_test_data_menu(database)
             file_IO.save_data(database, TRANSACTIONS_FILE)
         elif choice == '7':
-            cases = {
-                '1': ('case_food_limit.json', 'case_food_limit_rules.json', 'Food daily limit'),
-                '2': ('case_subscriptions.json', 'case_subscriptions_rules.json', 'Subscription creep'),
-                '3': ('case_transport.json', 'case_transport_rules.json', 'Transport tracking'),
-            }
-            print("\nSelect case study:")
-            for k, (_, _, label) in cases.items():
-                print(f"  {k}. {label}")
-            cs = input("Select (1-3): ").strip()
-            if cs in cases:
-                data_file, rules_file, label = cases[cs]
-                database = file_IO.load_data(data_file)
-                rules = file_IO.load_rules(rules_file)
-                print(f"Loaded case study: {label} ({len(database)} transactions, {len(rules)} rules)")
-            else:
-                print("Invalid choice.")
+            loaded = _load_case_study()
+            if loaded is not None:
+                database = loaded
+                file_IO.save_data(database, TRANSACTIONS_FILE)
         elif choice == '8':
             file_IO.save_data(database, TRANSACTIONS_FILE)
             print("Exiting system!")
