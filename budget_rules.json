@@ -1,1 +1,14 @@
-[]
+[
+    {
+        "category": "Transport",
+        "time period": "monthly",
+        "threshold": 500,
+        "alert type": "cap"
+    },
+    {
+        "category": "Transport",
+        "time period": "monthly",
+        "threshold": 30,
+        "alert type": "percentage"
+    }
+]
